@@ -1,6 +1,6 @@
 """
     Author: Jacob Okoro
-    Codes here where assembled from the programming assignment in andrew ng's deep learning ocurse
+    Codes here where assembled from my solutions to the programming assignment in Andrew Ng's deep learning specialization
 """
 #%%
 import numpy as np
