@@ -5,7 +5,6 @@
 #%%
 import numpy as np
 import matplotlib.pyplot as plt
-# from testCases_v2 import *
 import sklearn
 import sklearn.datasets
 import sklearn.linear_model
