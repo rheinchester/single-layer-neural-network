@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 import sklearn
 import sklearn.datasets
 import sklearn.linear_model
-from planar_utils import plot_decision_boundary, sigmoid, load_planar_dataset, load_extra_datasets
+from helper_codes import plot_decision_boundary, sigmoid, load_planar_dataset, load_extra_datasets
 
 
 def show_data(X, Y):
@@ -16,11 +16,11 @@ def show_data(X, Y):
     plt.scatter(X[0, :], X[1, :], c=Y.ravel(), s=40, cmap=plt.cm.Spectral)
 
 
-def lin_reg(X, Y):
-    """ run a linear regression and show prediction """
+def linear_reg(X, Y):
+    """ Linear regression and visual representation of decision boundary"""
     clf = sklearn.linear_model.LogisticRegressionCV()
     clf.fit(X.T, Y.T)
-    plot_decision_boundary(lambda x: clf.predict(x), X, Y.ravel())# this sunction takes in a model and dataset to generate decision boundary
+    plot_decision_boundary(lambda x: clf.predict(x), X, Y.ravel())# How the decision boundary was generated
     plt.title("Logistic Regression")
     # Print accuracy
     LR_predictions = clf.predict(X.T)
@@ -65,11 +65,9 @@ def layer_sizes(X, Y):
     n_h -- the size of the hidden layer
     n_y -- the size of the output layer
     """
-    ### START CODE HERE ### (≈ 3 lines of code)
     n_x = X.shape[0]  # size of input layer
     n_h = 4
     n_y = Y.shape[0]  # size of output layer
-    ### END CODE HERE ###
     return (n_x, n_h, n_y)
 
 
@@ -103,8 +101,6 @@ def forward_propagation(X, parameters):
 
 def compute_cost(A2, Y, parameters):
     """
-    Computes the cross-entropy cost given in equation (13)
-    
     Arguments:
     A2 -- The sigmoid output of the second activation, of shape (1, number of examples)
     Y -- "true" labels vector of shape (1, number of examples)
@@ -128,8 +124,6 @@ def compute_cost(A2, Y, parameters):
 
 def backward_propagation(parameters, cache, X, Y):
     """
-    Implement the backward propagation using the instructions above.
-    
     Arguments:
     parameters -- python dictionary containing our parameters 
     cache -- a dictionary containing "Z1", "A1", "Z2" and "A2".
@@ -211,7 +205,7 @@ def neural_model(X, Y, n_h, num_iterations=10000, print_cost=False):
         grads = backward_propagation(parameters, cache, X, Y)
         # update_parameters
         parameters = update_parameters(parameters, grads)
-
+        
         if print_cost and i % 1000 == 0:
             print("Cost after iteration %i: %f" % (i, cost))
     return parameters
@@ -230,11 +224,8 @@ def predict(parameters, X):
     """
 
     # Computes probabilities using forward propagation, and classifies to 0/1 using 0.5 as the threshold.
-    ### START CODE HERE ### (≈ 2 lines of code)
     A2, cache = forward_propagation(X, parameters)
     predictions = np.where(A2 < 0.5, 0, 1)
-    ### END CODE HERE ###
-
     return predictions
 
 #%%
@@ -246,7 +237,7 @@ my_cost = compute_cost(A2, Y, parameters)
 grads = backward_propagation(parameters, cache, X, Y)
 num_layers = 5
 # The higher, the number of hidden layers , the greater the probability of overfitting
-parameters= neural_model(X, Y, num_layers, num_iterations=3000, print_cost=True)
+parameters= neural_model(X, Y, num_layers, num_iterations=10000, print_cost=True)
 plot_decision_boundary(lambda x: predict(parameters, x.T), X, Y.ravel())
 plt.title("Decision Boundary for hidden layer size " + str(num_layers))
 
